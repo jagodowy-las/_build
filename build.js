@@ -1,3 +1,5 @@
+
+const { execSync } = require('child_process')
 const fs = require('fs')
 const pug = require('pug')
 const yaml = require('js-yaml')
@@ -17,8 +19,17 @@ Object.keys(atrybuty).forEach((projekt) => {
     let docelowe = `${projekt}/dst`
     let zrodlowe = `${projekt}/src`
     if (!fs.existsSync(docelowe)){
-        console.warn(`Katalog '${docelowe}' nie istniał. Sprawdź, czy siedzi w nim wszystko co chcesz (CSSy, obrazki, inne takie)`)
-        fs.mkdirSync(docelowe)
+        console.warn(`Katalog '${docelowe}' nie istniał. Sklonuję go.`)
+        execSync(`git clone https://github.com/jagodowy-las/${projekt}.git ./${docelowe}`, (err, stout, sterr) => {
+            if (err) {
+                console.error(sterr, err)
+                process.exit(1)
+            }
+            console.log(`Out: ${stout}`)
+            if (sterr) {
+                console.error(`Error: ${sterr}`)
+            }
+        })
     }
 
     fs.writeFileSync(
