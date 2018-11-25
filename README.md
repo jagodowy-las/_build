@@ -11,7 +11,7 @@ npm install --only=dev
 albo, jeśli jak ja nie lubisz wolmo,
 
 ```
-yarn install --production=false
+yarn install
 ```
 
 Potem jedyne, co musisz zrobić, to
