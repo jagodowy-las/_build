@@ -1,0 +1,135 @@
+extends base.pug
+
+block in_head
+    style.
+        @media only screen {
+            html, body {
+                margin: 0 auto;
+                height: 100%;
+                background-color: #76232d;
+                background-size: cover;
+                color: #dfa017;
+            }
+            h1 {
+                font-size: 18pt;
+            }
+            .print {
+                display: none;
+            }
+            .przygoda {
+                text-shadow: 0px 0px 10px rgba(10, 10, 10, 1);
+                padding: 1em;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            h1 {
+                font-size: 14pt;
+            }
+        }
+
+        @media (max-width: 1080px) {
+            body {
+                background-image: url('tlo_1080.jpg');
+            }
+        }
+        @media (min-width: 1081px) {
+            body {
+                background-image: url('tlo_hi.jpg');
+            }
+        }
+
+        @media only print {
+            .screen {
+                display: none;
+            }
+            table, td, th {
+                border: 1px solid #404040;
+                border-collapse: collapse;
+            }
+            table {
+                width: 100%;
+            }
+            .madlibs thead tr th {
+                width: 20pt;
+            }
+            .nopagebreak {
+                page-break-inside: avoid;
+            }
+        }
+
+        body {
+            font-family: adobe-caslon-pro, serif;
+            font-variant: small-caps;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+        h1 {
+            margin: 0;
+        }
+    script var data = !{data}
+    script.
+        function pick(choices) {
+            return choices[Math.floor(Math.random() * choices.length)]
+        }
+
+        function getAdventure() {
+            const category = pick(Object.keys(data))
+            const adventure = pick(data[category])
+
+            if (typeof adventure == 'string' || adventure instanceof String) {
+                return [category, adventure]
+            }
+
+            console.log(category)
+            const adventure_template = Object.keys(adventure)[0]
+            var out_adventure = adventure_template
+            
+            Object.keys(adventure[adventure_template]).forEach(function(to_replace) {
+                out_adventure = out_adventure.replace(
+                    `[${to_replace}]`, pick(adventure[adventure_template][to_replace])
+                )
+            })
+            return [category, out_adventure]
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var przygoda = getAdventure()
+            document.querySelector('#kategoria').textContent = przygoda[0] + ':'
+            document.querySelector('#przygoda').textContent = przygoda[1]
+        })
+
+block content
+    .przygoda.screen
+        div#kategoria Wyprawa na dziś:
+        h1#przygoda
+    .przygody.print
+     each przygody, kategoria in raw_data
+        .nopagebreak
+            h1 #{kategoria}
+            hr
+            each przygoda, index in przygody
+                if is_simple(przygoda)
+                    table.simple
+                        tbody
+                            tr
+                                th #{index+1}
+                                td #{przygoda}
+                else
+                    h2 #{get_name(przygoda)}
+                    table.madlibs
+                        thead
+                            th Nazwa
+                            each index in [1,2,3,4,5,6]
+                                th #{index}
+                        tbody
+                            each opcje,zmienna in przygoda[get_name(przygoda)]
+                                tr
+                                    th #{zmienna}
+                                    each opcja, index in opcje
+                                        td #{opcja}
