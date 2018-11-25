@@ -20,7 +20,9 @@ Potem, żeby zbudować:
 npm build.js
 ```
 
-W rezultacie, w każdym podkatalogu w którym siedzą źródła danego narzędzia, znajdziesz pod-podkatalog `dst`. Siedzą tam wygenerowane narzędzia, gotowe do odpalenia w przeglądarce, albo wrzucenia na github pages, czy gdzie bądź.
+W każdym katalogu projektu, build stworzy katalog dst, w którym będzie sklonowana gałąź master repo właściwego dla podprojektu, następnie wrzuci tam świeżo zbudowane pliki.
+
+W takiej sytuacji jedyne, co pozostaje, to commitnąć zmiany i pchnąć je gdzie trzeba!
 
 ## Czemu taki skrypt a nie (webpack/grunt/gulp/co tam obecnie jest modne)
 
