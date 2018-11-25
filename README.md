@@ -14,7 +14,7 @@ albo, jeśli jak ja nie lubisz wolmo,
 yarn install
 ```
 
-Potem jedyne, co musisz zrobić, to
+Potem, żeby zbudować:
 
 ```
 npm build.js
