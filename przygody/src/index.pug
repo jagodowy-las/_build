@@ -11,7 +11,7 @@ block in_head
                 color: #dfa017;
             }
             h1 {
-                font-size: 18pt;
+                font-size: 24pt;
             }
             .print {
                 display: none;
@@ -19,6 +19,21 @@ block in_head
             .przygoda {
                 text-shadow: 0px 0px 10px rgba(10, 10, 10, 1);
                 padding: 1em;
+            }
+            footer {
+                position: fixed;
+                bottom: 0;
+                background-color: #76232d;
+                border-top: 1px solid #dfa017;
+                text-align: center;
+                width: 100%;
+                padding: 0.5em 0;
+                font-size: 14pt;
+            }
+            footer a {
+                color: white;
+                text-decoration: none;
+                margin-left: 1em;
             }
         }
 
@@ -55,6 +70,9 @@ block in_head
             }
             .nopagebreak {
                 page-break-inside: avoid;
+            }
+            footer {
+                display: none;
             }
         }
 
